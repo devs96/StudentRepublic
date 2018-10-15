@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "153508310821",
+    "firebase_url": "https://studentrepublic-69d95.firebaseio.com",
+    "project_id": "studentrepublic-69d95",
+    "storage_bucket": "studentrepublic-69d95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153508310821:android:897492320f70e10b",
+        "android_client_info": {
+          "package_name": "com.example.devanshusapra.studentrepublic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153508310821-glejcvb7bof55lu6mfn5jj9oe5nvuoav.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.devanshusapra.studentrepublic",
+            "certificate_hash": "23ef538f9fcdc6c56c9769f74608b86d64cc5b45"
+          }
+        },
+        {
+          "client_id": "153508310821-bki1o1sa5p762km2pchut1jjef79ptg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-xhLs-IJ0brlqysCHysbWs2vlBT_i-h4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153508310821-bki1o1sa5p762km2pchut1jjef79ptg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
