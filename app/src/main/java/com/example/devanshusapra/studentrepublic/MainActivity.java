@@ -5,8 +5,11 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     String personName, personGivenName, personFamilyName, personEmail, personId;
     Uri personPhoto;
+    EditText email,password;
+    Button signInBtn,createBtn;
+
 
     @Override
     protected void onStart() {
@@ -47,12 +53,20 @@ public class MainActivity extends AppCompatActivity {
 
        //button = (SignInButton) findViewById(R.id.googlebtn);
         button = (SignInButton) findViewById(R.id.googlebtn) ;
+        email = (EditText) findViewById(R.id.email_field);
+        password =(EditText) findViewById(R.id.pass_field);
+
+        String email_str = email.getText().toString();
+        String pass_str = password.getText().toString();
+        signInBtn = (Button) findViewById(R.id.signInBtn);
+        createBtn = (Button) findViewById(R.id.crtBtn);
+
         mAuth = FirebaseAuth.getInstance();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                GooglesignIn();
             }
         });
 
@@ -72,9 +86,72 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
     }
 
-    private void signIn() {
+
+    private void createAccount(String email, String password) {
+        if (!validateForm()) {
+            return;
+        }
+        // [START create_user_with_email]
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                    }
+                });
+    }
+
+
+
+    private void signIn(String email, String password) {
+
+        if (!validateForm()) {
+            return;
+        }
+
+        // [START sign_in_with_email]
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // [START_EXCLUDE]
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+        // [END sign_in_with_email]
+    }
+
+
+    private void GooglesignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
@@ -125,6 +202,28 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String emailStr = email.getText().toString();
+        if (TextUtils.isEmpty(emailStr)) {
+            email.setError("Required.");
+            valid = false;
+        } else {
+            email.setError(null);
+        }
+
+        String passwrd = password.getText().toString();
+        if (TextUtils.isEmpty(passwrd)) {
+            password.setError("Required.");
+            valid = false;
+        } else {
+            password.setError(null);
+        }
+
+        return valid;
+    }
+
     private void updateUI(FirebaseUser user) {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
@@ -142,5 +241,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+    }
+
+    public void SignWithEmailPass(View view) {
+        signIn(email.getText().toString(),password.getText().toString());
+    }
+
+    public void crtAcnt(View view) {
+        createAccount(email.getText().toString(),password.getText().toString());
     }
 }
