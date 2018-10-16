@@ -4,5 +4,8 @@
     <string name="name">Name</string>
     <string name="i_am_cr">I am CR</string>
     <string name="i_am_a_student">I am a Student</string>
+    <string name="enter_class_name">Enter Class Name</string>
+    <string name="enter_class_code">Enter Class Code</string>
+    <string name="create_class">Create Class</string>
 
 </resources>

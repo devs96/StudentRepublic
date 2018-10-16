@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:name=".FireApp"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -19,12 +20,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Second" />
-
         <activity android:name=".UserActivity" />
-        <activity android:name=".StudentActivity"/>
-
+        <activity android:name=".StudentActivity" />
         <activity android:name=".Third" />
-        <activity android:name=".CR"/>
+        <activity android:name=".CR" />
+        <activity android:name=".activity_admin"></activity>
     </application>
 
 </manifest>
