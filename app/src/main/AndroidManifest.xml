@@ -17,8 +17,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".Second" />
+<<<<<<< HEAD
         <activity android:name=".UserActivity" />
         <activity android:name=".StudentActivity"></activity>
+=======
+        <activity android:name=".Third" />
+        <activity android:name=".CR"></activity>
+>>>>>>> 65c634787b3aad3c8c0ab4ed7e9c7b83734862e2
     </application>
 
 </manifest>

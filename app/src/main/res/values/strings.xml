@@ -2,5 +2,7 @@
     <string name="app_name">StudentRepublic</string>
     <string name="confirm">Confirm</string>
     <string name="name">Name</string>
+    <string name="i_am_cr">I am CR</string>
+    <string name="i_am_a_student">I am a Student</string>
 
 </resources>

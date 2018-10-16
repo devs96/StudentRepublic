@@ -22,7 +22,10 @@ public class Second extends AppCompatActivity {
         Intent myintent = getIntent();
         String mail = myintent.getStringExtra("mail");
         String fName = myintent.getStringExtra("name");
+<<<<<<< HEAD
         String phone = myintent.getStringExtra("phone");
+=======
+>>>>>>> 65c634787b3aad3c8c0ab4ed7e9c7b83734862e2
 
         email = (EditText) findViewById(R.id.editText);
         email.setText(mail);
@@ -30,7 +33,16 @@ public class Second extends AppCompatActivity {
         fullname = (EditText) findViewById(R.id.editText2);
         fullname.setText(fName);
 
+<<<<<<< HEAD
         /* TODO: Phone Number */
+=======
+        if(fName=="")
+        {
+            Toast.makeText(Second.this,"Admin", Toast.LENGTH_SHORT).show();
+        }
+
+        //startActivity(new Intent(Second.this,Second.class));
+>>>>>>> 65c634787b3aad3c8c0ab4ed7e9c7b83734862e2
 
         phoneNo = (EditText) findViewById(R.id.editText5);
         phoneNo.setText(phone);
