@@ -23,6 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     String personName, personGivenName, personFamilyName, personEmail, personId;
     Uri personPhoto;
-    EditText email,password;
+    EditText email_field, password_field;
     Button signInBtn,createBtn;
 
 
@@ -53,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
        //button = (SignInButton) findViewById(R.id.googlebtn);
         button = (SignInButton) findViewById(R.id.googlebtn) ;
-        email = (EditText) findViewById(R.id.email_field);
-        password =(EditText) findViewById(R.id.pass_field);
+        email_field = (EditText) findViewById(R.id.email_field);
+        password_field =(EditText) findViewById(R.id.pass_field);
 
-        String email_str = email.getText().toString();
-        String pass_str = password.getText().toString();
+        String email_str = email_field.getText().toString();
+        String pass_str = password_field.getText().toString();
         signInBtn = (Button) findViewById(R.id.signInBtn);
         createBtn = (Button) findViewById(R.id.crtBtn);
 
@@ -94,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         if (!validateForm()) {
             return;
         }
-        // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -104,6 +106,22 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
+                            try {
+                                throw task.getException();
+                            } catch(FirebaseAuthWeakPasswordException e) {
+                                Toast.makeText(MainActivity.this, "Weak Password",
+                                        Toast.LENGTH_SHORT).show();
+                            } catch(FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(MainActivity.this, "Invalid Email",
+                                        Toast.LENGTH_SHORT).show();
+                            } catch(FirebaseAuthUserCollisionException e) {
+                                Toast.makeText(MainActivity.this, "User Already Exixst",
+                                        Toast.LENGTH_SHORT).show();
+                            } catch(Exception e) {
+                                Toast.makeText(MainActivity.this, e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+
+                            }
                             // If sign in fails, display a message to the user.
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -205,20 +223,20 @@ public class MainActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
 
-        String emailStr = email.getText().toString();
+        String emailStr = email_field.getText().toString();
         if (TextUtils.isEmpty(emailStr)) {
-            email.setError("Required.");
+            email_field.setError("Required.");
             valid = false;
         } else {
-            email.setError(null);
+            email_field.setError(null);
         }
 
-        String passwrd = password.getText().toString();
+        String passwrd = password_field.getText().toString();
         if (TextUtils.isEmpty(passwrd)) {
-            password.setError("Required.");
+            password_field.setError("Required.");
             valid = false;
         } else {
-            password.setError(null);
+            password_field.setError(null);
         }
 
         return valid;
@@ -244,10 +262,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SignWithEmailPass(View view) {
-        signIn(email.getText().toString(),password.getText().toString());
+        signIn(email_field.getText().toString(), password_field.getText().toString());
     }
 
     public void crtAcnt(View view) {
-        createAccount(email.getText().toString(),password.getText().toString());
+        createAccount(email_field.getText().toString(), password_field.getText().toString());
     }
 }
