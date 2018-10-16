@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,12 +36,17 @@ public class Second extends AppCompatActivity {
 //        {
 //            Toast.makeText(Second.this,"Admin", Toast.LENGTH_SHORT).show();
 //        }
-        FirebaseUser currentuser = mAuth.getCurrentUser();
-        updateUI(currentuser);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String email_str = user.getEmail();
+//
+//        email.setText(email_str);
+
+
 
     }
 
     private void updateUI(FirebaseUser currentuser) {
+
     }
 
     public void ConfirmBtn(View view) {

@@ -245,18 +245,17 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
-             personName = acct.getDisplayName();
-             personGivenName = acct.getGivenName();
-             personFamilyName = acct.getFamilyName();
-             personEmail = acct.getEmail();
-             personId = acct.getId();
-             personPhoto = acct.getPhotoUrl();
+            personName = acct.getDisplayName();
+            personGivenName = acct.getGivenName();
+            personFamilyName = acct.getFamilyName();
+            personEmail = acct.getEmail();
+            personId = acct.getId();
+            personPhoto = acct.getPhotoUrl();
             Intent myintent = new Intent(this, Second.class);
             myintent.putExtra("name", personName);
             myintent.putExtra("mail", personEmail);
 
             startActivity(myintent);
-
 
         }
     }
