@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         layout_pass_field = findViewById(R.id.TextInputLayout2);
         email_field = findViewById(R.id.email_field);
         password_field = findViewById(R.id.pass_field);
-
         signInBtn = findViewById(R.id.signInBtn);
         createBtn = findViewById(R.id.crtBtn);
         Gbutton = findViewById(R.id.googlebtn) ;
@@ -74,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
        //layout_email_field.setError("Invalid Email");
        //layout_pass_field.setError("Invalid Password");
 
-//        String email_str = email_field.getText().toString();
-//        String pass_str = password_field.getText().toString();
+        //String email_str = email_field.getText().toString();
+        //String pass_str = password_field.getText().toString();
 
         email_field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -132,39 +131,23 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             try {
                                 throw task.getException();
-                            } catch(FirebaseAuthWeakPasswordException e) {
-                                Toast.makeText(MainActivity.this, "Weak Password",
-                                        Toast.LENGTH_SHORT).show();
-                            } catch(FirebaseAuthInvalidCredentialsException e) {
-                                Toast.makeText(MainActivity.this, "Invalid Email",
-                                        Toast.LENGTH_SHORT).show();
-                            } catch(FirebaseAuthUserCollisionException e) {
-                                Toast.makeText(MainActivity.this, "User Already Exixst",
-                                        Toast.LENGTH_SHORT).show();
-                            } catch(Exception e) {
-                                Toast.makeText(MainActivity.this, e.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
-
                             }
+                            catch(FirebaseAuthWeakPasswordException e){Toast.makeText(MainActivity.this, "Weak Password",Toast.LENGTH_SHORT).show();}
+                            catch(FirebaseAuthInvalidCredentialsException e){Toast.makeText(MainActivity.this, "Invalid Email",Toast.LENGTH_SHORT).show(); }
+                            catch(FirebaseAuthUserCollisionException e){Toast.makeText(MainActivity.this, "User Already Exist",Toast.LENGTH_SHORT).show(); }
+                            catch(Exception e){Toast.makeText(MainActivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();}
                             // If sign in fails, display a message to the user.
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
                     }
                 });
     }
 
 
-
     private void signIn(String email, String password) {
-
-        if (!validateForm()) {
-            return;
-        }
-
-        // [START sign_in_with_email]
+        if (!validateForm()) { return; }
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -174,24 +157,14 @@ public class MainActivity extends AppCompatActivity {
 
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                        } else {Toast.makeText(MainActivity.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // [START_EXCLUDE]
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                        if (!task.isSuccessful()) {Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
-        // [END sign_in_with_email]
     }
-
 
     private void GooglesignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -210,11 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                //Log.w(TAG, "Google sign in failed", e);
-                Toast.makeText(MainActivity.this,"Google Sign in failed", Toast.LENGTH_SHORT).show();
-                // ...
+            } catch (ApiException e) {Toast.makeText(MainActivity.this,"Google Sign in failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -238,9 +207,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this,"Authentication failed", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
-                    }
+                   }
                 });
     }
 
@@ -262,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             password_field.setError(null);
         }
-
         return valid;
     }
 
@@ -274,7 +240,6 @@ public class MainActivity extends AppCompatActivity {
             personFamilyName = acct.getFamilyName();
             personEmail = acct.getEmail();
             personId = acct.getId();
-//            personPhoto = acct.getPhotoUrl();
             Intent myintent = new Intent(this, Second.class);
             myintent.putExtra("name", personName);
             myintent.putExtra("mail", personEmail);

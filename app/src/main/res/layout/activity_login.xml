@@ -54,13 +54,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/TextInputLayout"
+        app:passwordToggleDrawable="@drawable/ic_visibility"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pass_field"
             style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:autofillHints="password"
             android:ems="10"
             android:inputType="textPassword"
             android:singleLine="true"
@@ -68,8 +71,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email_field"
-            app:layout_constraintVertical_bias="0.056"
-            android:autofillHints="password"/>
+            app:layout_constraintVertical_bias="0.056" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,6 +108,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signInBtn"
         app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="78dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/googlebtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crtBtn" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googlebtn"
