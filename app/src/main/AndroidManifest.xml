@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.devanshusapra.studentrepublic">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,12 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".Second" />
-
         <activity android:name=".UserActivity" />
-        <activity android:name=".StudentActivity"/>
-
+        <activity android:name=".StudentActivity" />
         <activity android:name=".Third" />
-        <activity android:name=".CR"/>
+        <activity android:name=".CR" />
     </application>
 
 </manifest>

@@ -1,15 +1,12 @@
 package com.example.devanshusapra.studentrepublic;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,21 +33,31 @@ public class Second extends AppCompatActivity {
 //        {
 //            Toast.makeText(Second.this,"Admin", Toast.LENGTH_SHORT).show();
 //        }
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String email_str = user.getEmail();
+       // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser user = mAuth.getCurrentUser();
+//        String email_str = user.getEmail();
 //
 //        email.setText(email_str);
 
-
-
+//        String name_str = user.getDisplayName();
+//        fullname.setText(name_str);
     }
 
-    private void updateUI(FirebaseUser currentuser) {
 
+
+
+
+    private void updateUI(FirebaseUser currentuser) {
+        //TODO:Update UI with user
     }
 
     public void ConfirmBtn(View view) {
         Intent intn = new Intent(this,UserActivity.class);
         startActivity(intn);
+    }
+
+    public void SignOut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(Second.this, MainActivity.class));
     }
 }

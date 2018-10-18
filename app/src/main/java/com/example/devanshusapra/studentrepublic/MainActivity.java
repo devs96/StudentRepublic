@@ -2,14 +2,16 @@ package com.example.devanshusapra.studentrepublic;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -20,6 +22,9 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,15 +36,17 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
-    SignInButton button;
+    SignInButton Gbutton;
     FirebaseAuth mAuth;
     private final static int RC_SIGN_IN = 2;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth.AuthStateListener mAuthListener;
     String personName, personGivenName, personFamilyName, personEmail, personId;
     Uri personPhoto;
-    EditText email_field, password_field;
-    Button signInBtn,createBtn;
+    TextInputLayout layout_email_field,layout_pass_field;
+    AutoCompleteTextView email_field;
+    TextInputEditText password_field;
+    MaterialButton signInBtn,createBtn;
 
 
     @Override
@@ -49,24 +56,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
-       //button = (SignInButton) findViewById(R.id.googlebtn);
-        button = (SignInButton) findViewById(R.id.googlebtn) ;
-        email_field = (EditText) findViewById(R.id.email_field);
-        password_field =(EditText) findViewById(R.id.pass_field);
+        layout_email_field = findViewById(R.id.TextInputLayout);
+        layout_pass_field = findViewById(R.id.TextInputLayout2);
+        email_field = findViewById(R.id.email_field);
+        password_field = findViewById(R.id.pass_field);
 
-        String email_str = email_field.getText().toString();
-        String pass_str = password_field.getText().toString();
-        signInBtn = (Button) findViewById(R.id.signInBtn);
-        createBtn = (Button) findViewById(R.id.crtBtn);
+        signInBtn = findViewById(R.id.signInBtn);
+        createBtn = findViewById(R.id.crtBtn);
+        Gbutton = findViewById(R.id.googlebtn) ;
+
+       //layout_email_field.setError("Invalid Email");
+       //layout_pass_field.setError("Invalid Password");
+
+//        String email_str = email_field.getText().toString();
+//        String pass_str = password_field.getText().toString();
+
+        email_field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    layout_email_field.setHint("John.Doe@somaiya.edu");
+                }else{
+                    layout_email_field.setHint("Email");
+                }
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
 
-        button.setOnClickListener(new View.OnClickListener() {
+        Gbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 GooglesignIn();
@@ -250,13 +274,11 @@ public class MainActivity extends AppCompatActivity {
             personFamilyName = acct.getFamilyName();
             personEmail = acct.getEmail();
             personId = acct.getId();
-            personPhoto = acct.getPhotoUrl();
+//            personPhoto = acct.getPhotoUrl();
             Intent myintent = new Intent(this, Second.class);
             myintent.putExtra("name", personName);
             myintent.putExtra("mail", personEmail);
-
             startActivity(myintent);
-
         }
     }
 
