@@ -7,13 +7,16 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/email_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:baselineAligned="false"
         android:hint="@string/email"
+
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
         app:errorEnabled="true"
         app:helperTextEnabled="true"
         app:hintAnimationEnabled="true"
@@ -25,7 +28,7 @@
 
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/email_field"
-            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
             android:layout_width="match_parent"
 
             android:layout_height="56dp"
@@ -41,12 +44,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextInputLayout2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/pass_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/password"
+
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
         app:errorEnabled="true"
         app:helperTextEnabled="true"
         app:hintAnimationEnabled="true"
@@ -54,16 +60,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextInputLayout"
-        app:passwordToggleDrawable="@drawable/ic_visibility"
+        app:layout_constraintTop_toBottomOf="@+id/email_layout"
         app:passwordToggleEnabled="true">
+        <!--app:passwordToggleDrawable="@drawable/ic_visibility"-->
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pass_field"
-            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:autofillHints="password"
             android:ems="10"
             android:inputType="textPassword"
             android:singleLine="true"
@@ -88,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextInputLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/pass_layout"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.button.MaterialButton
@@ -114,17 +119,17 @@
         android:layout_width="300dp"
         android:layout_height="2dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="78dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/googlebtn"
+        app:layout_constraintBottom_toTopOf="@+id/googleBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/crtBtn" />
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/googlebtn"
+        android:id="@+id/googleBtn"
         android:layout_width="342dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
@@ -132,12 +137,12 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:elevation="4dp"
+        app:cornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.732"
-        app:cornerRadius="4dp" />
+        app:layout_constraintVertical_bias="0.732" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

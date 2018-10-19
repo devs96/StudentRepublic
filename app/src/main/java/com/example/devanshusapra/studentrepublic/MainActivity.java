@@ -28,18 +28,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
     SignInButton Gbutton;
+    GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth mAuth;
     private final static int RC_SIGN_IN = 2;
-    GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth.AuthStateListener mAuthListener;
     String personName, personGivenName, personFamilyName, personEmail, personId;
     Uri personPhoto;
@@ -62,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        layout_email_field = findViewById(R.id.TextInputLayout);
-        layout_pass_field = findViewById(R.id.TextInputLayout2);
+        layout_email_field = findViewById(R.id.email_layout);
+        layout_pass_field = findViewById(R.id.pass_layout);
         email_field = findViewById(R.id.email_field);
         password_field = findViewById(R.id.pass_field);
         signInBtn = findViewById(R.id.signInBtn);
         createBtn = findViewById(R.id.crtBtn);
-        Gbutton = findViewById(R.id.googlebtn) ;
+        Gbutton = findViewById(R.id.googleBtn) ;
 
        //layout_email_field.setError("Invalid Email");
        //layout_pass_field.setError("Invalid Password");
@@ -115,35 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    private void createAccount(String email, String password) {
-        if (!validateForm()) {
-            return;
-        }
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            try {
-                                throw task.getException();
-                            }
-                            catch(FirebaseAuthWeakPasswordException e){Toast.makeText(MainActivity.this, "Weak Password",Toast.LENGTH_SHORT).show();}
-                            catch(FirebaseAuthInvalidCredentialsException e){Toast.makeText(MainActivity.this, "Invalid Email",Toast.LENGTH_SHORT).show(); }
-                            catch(FirebaseAuthUserCollisionException e){Toast.makeText(MainActivity.this, "User Already Exist",Toast.LENGTH_SHORT).show(); }
-                            catch(Exception e){Toast.makeText(MainActivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();}
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
-    }
 
 
     private void signIn(String email, String password) {
@@ -252,6 +220,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void crtAcnt(View view) {
-        createAccount(email_field.getText().toString(), password_field.getText().toString());
+        String email;
+        Intent LoginIntent = new Intent(this, CreateAccount.class);
+        if (!TextUtils.isEmpty(email_field.getText())) {
+            email = email_field.getText().toString();
+            LoginIntent.putExtra("email", email);
+        }
+        startActivity(LoginIntent);
     }
 }

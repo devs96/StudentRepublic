@@ -12,13 +12,15 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Second extends AppCompatActivity {
 
-    EditText email,fullname, phoneNo;
+    EditText email,fullname,phoneNo;
     FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+
+        
 //        Intent myintent = getIntent();
 //        String mail = myintent.getStringExtra("mail");
 //        String fName = myintent.getStringExtra("name");

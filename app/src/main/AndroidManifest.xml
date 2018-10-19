@@ -28,6 +28,7 @@
         <activity android:name=".StudentActivity" />
         <activity android:name=".Third" />
         <activity android:name=".CR" />
+        <activity android:name=".CreateAccount"></activity>
     </application>
 
 </manifest>
