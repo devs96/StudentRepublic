@@ -30,6 +30,10 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 public class CreateAccount extends AppCompatActivity {
 
@@ -66,12 +70,6 @@ public class CreateAccount extends AppCompatActivity {
         CreateAccountBtn = findViewById(R.id.CreateAccountBtn);
         Gbutton = findViewById(R.id.googleBtn) ;
 
-
-        String fnameStr = FirstNameField.getText().toString();
-        String lnameStr = LastNameField.getText().toString();
-        String emailStr = EmailField.getText().toString();
-        String passStr = passField.getText().toString();
-        String confirmStr = confirmField.getText().toString();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -126,7 +124,18 @@ public class CreateAccount extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
+                            String newDataRef = FirebaseAuth.getInstance().
+                                                getCurrentUser().getUid();
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference mRootref = database.getReference(
+                                    "users/"+newDataRef);
                             FirebaseUser user = mAuth.getCurrentUser();
+                            DatabaseReference name_key,email_key;
+
+                            name_key = mRootref.child("name");
+                            email_key = mRootref.child("email");
+                            name_key.setValue(user.getDisplayName());
+                            email_key.setValue(user.getEmail());
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -162,7 +171,7 @@ public class CreateAccount extends AppCompatActivity {
 
         if (TextUtils.isEmpty(lnameStr)){
             LastNameField.setError("Required");
-            valid=false;
+            valid = false;
         }
 
         if (TextUtils.isEmpty(passStr)){
@@ -186,7 +195,6 @@ public class CreateAccount extends AppCompatActivity {
             EmailField.setError(null);
         }
 
-
         if (TextUtils.isEmpty(passStr)) {
             passField.setError("Required.");
             valid = false;
@@ -200,26 +208,39 @@ public class CreateAccount extends AppCompatActivity {
         if (!validateForm()){
             Toast.makeText(CreateAccount.this,"Validation is False", Toast.LENGTH_SHORT).show();
         }
-        createAccount(EmailField.getText().toString(),passField.getText().toString());
+        createAccount(LastNameField.getText().toString(),FirstNameField.getText().toString(),EmailField.getText().toString(),passField.getText().toString());
     }
 
 
-
-
-    private void createAccount(String email, String password) {
+    private void createAccount(final String first_name, final String last_name, final String email, String password) {
         if (!validateForm()) {
             return;
         }
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
                             // Sign in success, update UI with the signed-in user's information
+
+                            String newDataRef = FirebaseAuth.getInstance().
+                                    getCurrentUser().getUid();
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference mRootref = database.getReference(
+                                    "users/"+newDataRef);
                             FirebaseUser user = mAuth.getCurrentUser();
+                            DatabaseReference name_key,email_key,class_key;
+
+                            name_key = mRootref.child("name");
+                            email_key = mRootref.child("email");
+                            name_key.setValue(first_name+" "+last_name);
+                            email_key.setValue(email);
+
                         } else {
                             try {
-                                throw task.getException();
+                                throw Objects.requireNonNull(task.getException());
                             }
                             catch(FirebaseAuthWeakPasswordException e){Toast.makeText(CreateAccount.this, "Weak Password",Toast.LENGTH_SHORT).show();}
                             catch(FirebaseAuthInvalidCredentialsException e){Toast.makeText(CreateAccount.this, "Invalid Email",Toast.LENGTH_SHORT).show(); }
@@ -231,7 +252,16 @@ public class CreateAccount extends AppCompatActivity {
                         }
                     }
                 });
+
         Intent createAccountIntent = new Intent(getApplicationContext(),Second.class);
+        createAccountIntent.putExtra("firstName",first_name);
+        createAccountIntent.putExtra("lastName",last_name);
+        createAccountIntent.putExtra("email",email);
+        createAccountIntent.putExtra("password",password);
         startActivity(createAccountIntent);
+    }
+
+    public void addUserDetails(){
+
     }
 }

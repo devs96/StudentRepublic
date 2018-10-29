@@ -1,5 +1,6 @@
 package com.example.devanshusapra.studentrepublic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import androidx.annotation.NonNull;
@@ -8,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
@@ -30,6 +33,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         signInBtn = findViewById(R.id.signInBtn);
         createBtn = findViewById(R.id.crtBtn);
         Gbutton = findViewById(R.id.googleBtn) ;
+
 
        //layout_email_field.setError("Invalid Email");
        //layout_pass_field.setError("Invalid Password");
@@ -111,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }
-
 
 
     private void signIn(String email, String password) {
@@ -166,7 +171,19 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
+
+                            String newDataRef = FirebaseAuth.getInstance().
+                                    getCurrentUser().getUid();
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference mRootref = database.getReference(
+                                    "users/"+newDataRef);
                             FirebaseUser user = mAuth.getCurrentUser();
+                            DatabaseReference name_key,email_key;
+
+                            name_key = mRootref.child("name");
+                            email_key = mRootref.child("email");
+                            name_key.setValue(user.getDisplayName());
+                            email_key.setValue(user.getEmail());
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
