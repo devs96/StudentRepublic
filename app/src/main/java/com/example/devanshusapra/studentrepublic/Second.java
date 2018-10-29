@@ -79,10 +79,10 @@ public class Second extends AppCompatActivity {
 //
 //            }
 //        });
-        String newDataRef = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRootref = database.getReference(
-                "users/"+newDataRef);
+//        String newDataRef = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference mRootref = database.getReference(
+//                "users/"+newDataRef);
 
 //        Intent userdetails = getIntent();
 //        String fname = userdetails.getStringExtra("firstName");
@@ -138,7 +138,6 @@ public class Second extends AppCompatActivity {
                             if (UID.equals(snapshot.getKey())){
                                 className = snapshot.child("class").getValue().toString();
                                 Toast.makeText(getApplicationContext(),className,Toast.LENGTH_LONG).show();
-
                             }
                         }
                     }
@@ -149,9 +148,7 @@ public class Second extends AppCompatActivity {
         return className;
     }
 
-
     private void updateUI(FirebaseUser currentuser) {
-
     }
 
     public void ConfirmBtn(View view) {
@@ -163,6 +160,4 @@ public class Second extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(Second.this, MainActivity.class));
     }
-
-
 }
