@@ -91,31 +91,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
-
         Gbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 GooglesignIn();
             }
         });
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() != null)
-                {
+                if(firebaseAuth.getCurrentUser() != null){
                     startActivity(new Intent(MainActivity.this,Second.class));
                 }
             }
         };
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
     }
 
 

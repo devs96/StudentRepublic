@@ -12,5 +12,4 @@ public class Third extends AppCompatActivity {
     }
 
 
-
 }

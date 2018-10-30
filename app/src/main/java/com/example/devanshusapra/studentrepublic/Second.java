@@ -1,10 +1,15 @@
 package com.example.devanshusapra.studentrepublic;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +29,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,23 +41,61 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Second extends AppCompatActivity {
 
+    private static final String TAG = "Second Activity" ;
     EditText email,fullname,phoneNo;
     FirebaseAuth mAuth;
-    Button btn;
+    Button btn,token_btn;
     Spinner mySpinner;
     DatabaseReference mRootref;
     EditText notf_title_f,notf_desc_f;
     String className;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+        token_btn = findViewById(R.id.token_btn);
+        notf_title_f = findViewById(R.id.notf_title);
+        notf_desc_f = findViewById(R.id.notf_desc);
 
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId  = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
 
+        Button subscribeButton = findViewById(R.id.subscribe);
+
+        subscribeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Subscribing to weather topic");
+                // [START subscribe_topics]
+                FirebaseMessaging.getInstance().subscribeToTopic("weather")
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                String weather_msg = getString(R.string.msg_subscribed);
+                                if (!task.isSuccessful()) {
+                                    weather_msg = getString(R.string.msg_subscribe_failed);
+                                }
+                                Log.d(TAG, weather_msg);
+                                Toast.makeText(Second.this, weather_msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                // [END subscribe_topics]
+            }
+        });
 
 //        String name_str = (details.getStringExtra("firstName")+" "
 //                        +details.getStringExtra("lastName"));
@@ -102,11 +151,46 @@ public class Second extends AppCompatActivity {
 //        class_key.setValue("mca");
     }
 
+
+
+
+    public void sendFCM(View v){
+
+        AtomicInteger msgId = new AtomicInteger();
+        FirebaseMessaging fm = FirebaseMessaging.getInstance();
+
+        fm.send(new RemoteMessage.Builder(R.string.sender_id + "@gcm.googleapis.com")
+                .setMessageId(Integer.toString(msgId.incrementAndGet()))
+                .addData("my_message", "Hello World")
+                .addData("my_action","SAY_HELLO")
+                .build());
+    }
+
+    public void geneRateToken(View v) {
+        // Get token
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        notf_title_f.setText(msg);
+                        Toast.makeText(Second.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     public void insertNotf(View view) {
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-
-        notf_title_f = findViewById(R.id.notf_title);
-        notf_desc_f = findViewById(R.id.notf_desc);
 
 
         String title_str = notf_title_f.getText().toString();
@@ -148,8 +232,7 @@ public class Second extends AppCompatActivity {
         return className;
     }
 
-    private void updateUI(FirebaseUser currentuser) {
-    }
+    private void updateUI(FirebaseUser currentuser) { }
 
     public void ConfirmBtn(View view) {
         Intent intn = new Intent(this,UserActivity.class);
