@@ -41,5 +41,14 @@
     <string name="create_class">Create Class</string>
     <string name="enter_class_code">Enter Class Code</string>
     <string name="enter_class_name">Enter Class Name</string>
+    <string name="class_code">Class Code</string>
+    <string name="check">Check</string>
+    <string name="class_name">Class Name</string>
+    <string name="next">Next</string>
+    <string name="notification_title">Notification Title</string>
+    <string name="send">Send</string>
+    <string name="back">Back</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
 
 </resources>

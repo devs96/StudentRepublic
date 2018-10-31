@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.devanshusapra.studentrepublic">
+    package="com.example.devanshusapra.StudentRepublic">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -18,35 +18,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name="com.example.devanshusapra.StudentRepublic.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".MyJobService"
+            android:name="com.example.devanshusapra.StudentRepublic.MyJobService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".Second" />
-        <activity android:name=".UserActivity" />
-        <activity android:name=".StudentActivity" />
-        <activity android:name=".Third" />
-        <activity android:name=".CR" />
-        <activity android:name=".CreateAccount" />
-        <activity android:name=".adminpage">
+        <activity android:name="com.example.devanshusapra.StudentRepublic.MainActivity" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.Second" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.UserActivity" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.StudentActivity" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.Third" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.CreateAccount" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.adminpage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.devanshusapra.StudentRepublic.Calendar" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.activity_check_code" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.Crpage" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.Main2Activity"></activity>
     </application>
 
 </manifest>
