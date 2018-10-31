@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.example.devanshusapra.StudentRepublic.MainActivity"
+        android:name="com.example.devanshusapra.StudentRepublic.Login"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
     <activity
@@ -15,4 +15,9 @@
         android:name="com.example.devanshusapra.StudentRepublic.CreateAccount"
         android:label="activity_create_account"
         tools:layout="@layout/activity_create_account" />
+    <activity
+        android:id="@+id/third"
+        android:name="com.example.devanshusapra.StudentRepublic.SelectRole"
+        android:label="activity_third"
+        tools:layout="@layout/activity_select_role" />
 </navigation>

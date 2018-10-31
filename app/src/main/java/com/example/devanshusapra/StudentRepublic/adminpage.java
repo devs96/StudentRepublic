@@ -29,9 +29,9 @@ public class adminpage extends AppCompatActivity {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mRootref = database.getReference("classes");
 
-        classvalue = findViewById(R.id.e1);
-        classcode = findViewById(R.id.editText2);
-        createbtn = findViewById(R.id.cr_btn);
+        classvalue = findViewById(R.id.class_name);
+        classcode = findViewById(R.id.class_code);
+        createbtn = findViewById(R.id.student_button);
 
         createbtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -21,7 +21,7 @@ public class StudentActivity extends AppCompatActivity {
 
     DatabaseReference databaseReference;
     ProgressDialog progressDialog;
-    List <StudentDetails> list = new ArrayList<>();
+    List <Notification> list = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
 
@@ -35,24 +35,23 @@ public class StudentActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerV);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(StudentActivity.this));
-        progressDialog = new ProgressDialog(StudentActivity.this);
-        progressDialog.setMessage("Loading Data From Database");
-        progressDialog.show();
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(StudentActivity.this);
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(mLayoutManager);
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("notification/" + Class_name);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot Snapshot) {
-                for (DataSnapshot dataSnapshot : Snapshot.getChildren() ){
-                    StudentDetails studentDetails = dataSnapshot.getValue(StudentDetails.class);
-                    list.add(studentDetails);
+                for (DataSnapshot dataSnapshot : Snapshot.getChildren()){
+                    Notification notification = dataSnapshot.getValue(Notification.class);
+                    list.add(notification);
                 }
                 adapter = new MyAdapter(StudentActivity.this,list);
                 recyclerView.setAdapter(adapter);
-                progressDialog.dismiss();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 progressDialog.dismiss();

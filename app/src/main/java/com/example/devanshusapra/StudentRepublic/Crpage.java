@@ -31,10 +31,10 @@ public class Crpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crpage);
 
-        notf_title_f=findViewById(R.id.e1);
-        notf_desc_f=findViewById(R.id.e2);
+        notf_title_f=findViewById(R.id.title_field);
+        notf_desc_f=findViewById(R.id.desc_field);
         b1=findViewById(R.id.sednBtn);
-        b2=findViewById(R.id.button3);
+        b2=findViewById(R.id.back);
 
         Intent intent = getIntent();
         final String cName = intent.getStringExtra("className");
@@ -51,8 +51,8 @@ public class Crpage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                notf_title_f = findViewById(R.id.e1);
-                notf_desc_f = findViewById(R.id.e2);
+                notf_title_f = findViewById(R.id.title_field);
+                notf_desc_f = findViewById(R.id.desc_field);
                 String title_str = notf_title_f.getText().toString();
                 String desc_str = notf_desc_f.getText().toString();
 
@@ -68,10 +68,10 @@ public class Crpage extends AppCompatActivity {
                 desc.setValue(desc_str);
                 time.setValue(currentDateTimeString);
 
-                StudentDetails studentDetails= new StudentDetails();
-                studentDetails.setTitle(title.toString());
-                studentDetails.setMessage(desc.toString());
-                studentDetails.setTimestamp(time.toString());
+                Notification notification = new Notification();
+                notification.setTitle(title.toString());
+                notification.setMessage(desc.toString());
+                notification.setTimestamp(time.toString());
 
                 /*Sending Push Notification*/
 //
@@ -109,7 +109,7 @@ public class Crpage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),
-                        activity_check_code.class));
+                        SelectClass.class));
             }
         });
     }

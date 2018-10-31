@@ -36,7 +36,7 @@
     <string name="default_notification_channel_name" translatable="true">Weather</string>
     <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
     <string name="fcm_message">FCM Message</string>
-    <string name="msg_subscribed">Subscribed To Weather</string>
+    <string name="msg_subscribed">Subscribed To</string>
     <string name="sender_id">153508310821</string>
     <string name="create_class">Create Class</string>
     <string name="enter_class_code">Enter Class Code</string>

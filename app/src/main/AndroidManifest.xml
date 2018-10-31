@@ -31,21 +31,26 @@
             </intent-filter>
         </service>
 
-        <activity android:name="com.example.devanshusapra.StudentRepublic.MainActivity" />
-        <activity android:name="com.example.devanshusapra.StudentRepublic.Second" />
-        <activity android:name="com.example.devanshusapra.StudentRepublic.UserActivity" />
-        <activity android:name="com.example.devanshusapra.StudentRepublic.StudentActivity" />
-        <activity android:name="com.example.devanshusapra.StudentRepublic.Third" />
-        <activity android:name="com.example.devanshusapra.StudentRepublic.CreateAccount" />
-        <activity android:name="com.example.devanshusapra.StudentRepublic.adminpage">
+        <activity android:name="com.example.devanshusapra.StudentRepublic.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.devanshusapra.StudentRepublic.ConfirmDetails" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.StudentActivity">
+
+        </activity>
+        <activity android:name="com.example.devanshusapra.StudentRepublic.SelectRole" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.CreateAccount" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.adminpage">
+
+        </activity>
         <activity android:name="com.example.devanshusapra.StudentRepublic.Calendar" />
-        <activity android:name="com.example.devanshusapra.StudentRepublic.activity_check_code" />
+        <activity android:name="com.example.devanshusapra.StudentRepublic.SelectClass">
+
+        </activity>
         <activity android:name="com.example.devanshusapra.StudentRepublic.Crpage" />
         <activity android:name="com.example.devanshusapra.StudentRepublic.Main2Activity"></activity>
     </application>

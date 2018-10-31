@@ -81,7 +81,7 @@ public class CreateAccount extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null) {
                     startActivity(new Intent(
-                            CreateAccount.this,Second.class));
+                            CreateAccount.this,ConfirmDetails.class));
                 }
             }
         };
@@ -250,15 +250,19 @@ public class CreateAccount extends AppCompatActivity {
                         }
                     }
                 });
-        Intent createAccountIntent = new Intent(getApplicationContext(),Second.class);
+        Intent createAccountIntent = new Intent(getApplicationContext(),ConfirmDetails.class);
         createAccountIntent.putExtra("firstName",first_name);
         createAccountIntent.putExtra("lastName",last_name);
         createAccountIntent.putExtra("email",email);
         createAccountIntent.putExtra("password",password);
+        addUserDetails();
         startActivity(createAccountIntent);
     }
 
     public void addUserDetails(){
-
+        Student MyStud = new Student(
+                LastNameField.getText().toString()+
+                FirstNameField.getText().toString(),
+                EmailField.getText().toString());
     }
 }

@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     Context context;
-    private List <StudentDetails> mDataset;
+    private List <Notification> mDataset;
 
-    public MyAdapter(Context context, List<StudentDetails> Templist){
+    public MyAdapter(Context context, List<Notification> Templist){
         this.mDataset = Templist;
         this.context = context;
     }
@@ -32,10 +32,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(MyViewHolder Holder, int position) {
 
-        StudentDetails studentDetails = mDataset.get(position);
-        Holder.msgTitle.setText(studentDetails.getTitle());
-        Holder.msgDesc.setText(studentDetails.getMessage());
-        Holder.msgTime.setText(studentDetails.getTimestamp());
+        Notification notification = mDataset.get(position);
+        Holder.msgTitle.setText(notification.getTitle());
+        Holder.msgDesc.setText(notification.getMessage());
+        Holder.msgTime.setText(notification.getTimestamp());
     }
 
     @Override

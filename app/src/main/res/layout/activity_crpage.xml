@@ -30,7 +30,7 @@
         <!--app:passwordToggleDrawable="@drawable/ic_visibility"-->
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/e1"
+            android:id="@+id/title_field"
             style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
         <!--app:passwordToggleDrawable="@drawable/ic_visibility"-->
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/e2"
+            android:id="@+id/desc_field"
             style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="4dp"
@@ -109,13 +109,12 @@
 
     <Button
         android:id="@+id/sednBtn"
-        android:layout_width="305dp"
-        android:layout_height="wrap_content"
+        android:layout_width="312dp"
+        android:layout_height="60dp"
         android:elevation="4dp"
         android:text="@string/send"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notification_desc_layout" />
 
