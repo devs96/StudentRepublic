@@ -7,17 +7,23 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class SelectRole extends AppCompatActivity {
 
     private Button cr_btn, student_btn;
+    FirebaseAuth.AuthStateListener mAuthListener;
+    String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +37,44 @@ public class SelectRole extends AppCompatActivity {
         student_btn = findViewById(R.id.student_button);
         cr_btn = findViewById(R.id.cr_button);
 
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mRootref =
                 database.getReference("users/"
-                        +FirebaseAuth.getInstance().getUid()+"/");
+                        +FirebaseAuth.getInstance().getCurrentUser().getUid()+"/");
         final DatabaseReference childref = mRootref.child("role");
 
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() != null) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String UserId = user.getUid();
+                    childref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot Snapshot) {
+                            for (DataSnapshot dataSnapshot : Snapshot.getChildren()) {
+                                 role = dataSnapshot.getValue(String.class);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    if (role.equals("Student")) {
+                        startActivity(new Intent(SelectRole.this, StudentActivity.class));
+                    }
+                    if (role.equals("CR")) {
+                        startActivity(new Intent(SelectRole.this, Crpage.class));
+                    } else {
+                        Toast.makeText(SelectRole.this, "Role Not Found", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            };
+        };
 
         cr_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +127,6 @@ public class SelectRole extends AppCompatActivity {
                             classes.putExtra("className",ClassName);
                             classes.putExtra("classCode",ClassCode);
                             startActivity(classes);
-
                         }
                     }
                 });

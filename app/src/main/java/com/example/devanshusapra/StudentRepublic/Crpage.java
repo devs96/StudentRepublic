@@ -58,7 +58,7 @@ public class Crpage extends AppCompatActivity {
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference mRootref = database
-                        .getReference("studentDetails/" + cName);
+                        .getReference("notification/" + cName);
                 DatabaseReference push = mRootref.push();
                 DatabaseReference title, desc, time;
                 title = push.child("title");

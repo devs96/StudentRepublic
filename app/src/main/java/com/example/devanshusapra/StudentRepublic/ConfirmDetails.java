@@ -46,6 +46,9 @@ public class ConfirmDetails extends AppCompatActivity {
     TextInputEditText name_field, email_field;
     String className;
     Student MyStud;
+    FirebaseAuth.AuthStateListener mAuthListener;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +60,31 @@ public class ConfirmDetails extends AppCompatActivity {
                 + details.getStringExtra("lastName"));
         String email_str = details.getStringExtra("email");
 
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            if (email_str != null) {
+                email_str = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            }
+            if (name_str.trim() != null ) {
+                name_str = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            }
+        }
 
         name_field = findViewById(R.id.user_name);
         email_field = findViewById(R.id.user_email);
 
-        name_field.setText(name_str);
-        email_field.setText(email_str);
+        if (name_str != null || email_str != null) {
+            name_field.setText(name_str);
+            email_field.setText(email_str);
+        }
+
+//        mAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                if (firebaseAuth.getCurrentUser() != null) {
+//                    startActivity(new Intent(ConfirmDetails.this, SelectRole.class));
+//                }
+//            }
+//        };
 
 
 //        subscribeButton.setOnClickListener(new View.OnClickListener() {

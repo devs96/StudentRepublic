@@ -36,8 +36,15 @@ public class SelectClass extends AppCompatActivity {
     TextView confirm_class_name;
 
 
+    FirebaseAuth.AuthStateListener mAuthListener;
 
     String ClassName, ClassCode;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -57,6 +64,16 @@ public class SelectClass extends AppCompatActivity {
         confirm_class_name = findViewById(R.id.show_class_name);
         confirm_class_name.setVisibility(View.INVISIBLE);
         class_code_field = findViewById(R.id.class_code_field);
+
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() != null){
+                    startActivity(new Intent(SelectClass.this,SelectRole.class));
+                }
+            }
+        };
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

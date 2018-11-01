@@ -69,5 +69,3 @@ public class adminpage extends AppCompatActivity {
 
 
 
-
-
