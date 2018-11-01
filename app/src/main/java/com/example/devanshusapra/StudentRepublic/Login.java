@@ -218,7 +218,7 @@ public class Login extends AppCompatActivity {
             personId = acct.getId();
             Intent myintent = new Intent(this, ConfirmDetails.class);
 
-            myintent.putExtra("name", personName);
+            myintent.putExtra("firstname", personName);
             myintent.putExtra("mail", personEmail);
             startActivity(myintent);
         }

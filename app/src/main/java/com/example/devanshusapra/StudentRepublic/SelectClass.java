@@ -35,6 +35,8 @@ public class SelectClass extends AppCompatActivity {
     Button CheckBtn, NextBtn;
     TextView confirm_class_name;
 
+
+
     String ClassName, ClassCode;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -109,11 +111,8 @@ public class SelectClass extends AppCompatActivity {
                             @Override
                             public void onDataChange
                                     (com.google.firebase.database.DataSnapshot dataSnapshot) {
-
-
                                 Iterable<com.google.firebase.database.DataSnapshot> children =
                                         dataSnapshot.getChildren();
-
                                 for (com.google.firebase.database.DataSnapshot child : children) {
                                     if (class_code_field.getText().toString().equals(child.getValue())) {
                                         ClassName = child.getKey();
@@ -168,7 +167,8 @@ public class SelectClass extends AppCompatActivity {
         classes.putExtra("className",ClassName);
         classes.putExtra("classCode",ClassCode);
 
-
+        Student Mystud = new Student();
+        Mystud.setClassName(ClassName);
         startActivity(classes);
     }
 

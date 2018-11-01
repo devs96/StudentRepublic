@@ -41,7 +41,7 @@ public class Crpage extends AppCompatActivity {
         final String cCode = intent.getStringExtra("classCode");
 
 //        OneSignal.startInit(this)
-//                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+//                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.StudentDetails)
 //                .unsubscribeWhenNotificationsAreDisabled(true)
 //                .init();
 //        OneSignal.sendTag("user name", cCode);
@@ -58,7 +58,7 @@ public class Crpage extends AppCompatActivity {
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference mRootref = database
-                        .getReference("notification/" + cName);
+                        .getReference("studentDetails/" + cName);
                 DatabaseReference push = mRootref.push();
                 DatabaseReference title, desc, time;
                 title = push.child("title");
@@ -68,15 +68,15 @@ public class Crpage extends AppCompatActivity {
                 desc.setValue(desc_str);
                 time.setValue(currentDateTimeString);
 
-                Notification notification = new Notification();
-                notification.setTitle(title.toString());
-                notification.setMessage(desc.toString());
-                notification.setTimestamp(time.toString());
+                StudentDetails studentDetails = new StudentDetails();
+                studentDetails.setTitle(title.toString());
+                studentDetails.setMessage(desc.toString());
+                studentDetails.setTimestamp(time.toString());
 
-                /*Sending Push Notification*/
+                /*Sending Push StudentDetails*/
 //
 //                DatabaseReference databaseReference = database.getReference();
-//                databaseReference.child("notification").addValueEventListener
+//                databaseReference.child("studentDetails").addValueEventListener
 //                        (new com.google.firebase.database.ValueEventListener() {
 //                    @Override
 //                    public void onDataChange(com.google.firebase.database

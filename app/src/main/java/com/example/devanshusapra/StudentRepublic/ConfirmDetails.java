@@ -50,14 +50,14 @@ public class ConfirmDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_second);
 
         Intent details = getIntent();
         String name_str = (details.getStringExtra("firstName") + " "
                 + details.getStringExtra("lastName"));
         String email_str = details.getStringExtra("email");
 
-        setContentView(R.layout.activity_second);
+
         name_field = findViewById(R.id.user_name);
         email_field = findViewById(R.id.user_email);
 
@@ -86,10 +86,7 @@ public class ConfirmDetails extends AppCompatActivity {
 //            }
 //        });
 
-
     }
-
-
     public void sendFCM(View v) {
 
         AtomicInteger msgId = new AtomicInteger();
@@ -112,10 +109,8 @@ public class ConfirmDetails extends AppCompatActivity {
                             Log.w(TAG, "getInstanceId failed", task.getException());
                             return;
                         }
-
                         // Get new Instance ID token
                         String token = task.getResult().getToken();
-
                         // Log and toast
                         String msg = getString(R.string.msg_token_fmt, token);
                         Log.d(TAG, msg);
@@ -161,7 +156,6 @@ public class ConfirmDetails extends AppCompatActivity {
                             }
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -174,7 +168,7 @@ public class ConfirmDetails extends AppCompatActivity {
 
     public void ConfirmBtn(View view) {
 
-        final String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRootref = database.getReference("users/" + UID);
 

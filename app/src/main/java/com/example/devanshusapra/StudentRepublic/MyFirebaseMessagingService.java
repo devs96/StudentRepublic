@@ -36,7 +36,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // are handled
         // here in onMessageReceived whether the app is in the foreground or background. Data
         // messages are the type
-        // traditionally used with GCM. Notification messages are only received here in
+        // traditionally used with GCM. StudentDetails messages are only received here in
         // onMessageReceived when the app
         // is in the foreground. When the app is in the background an automatically generated
         // notification is displayed.
@@ -67,7 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Message StudentDetails Body: " + remoteMessage.getNotification().getBody());
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM

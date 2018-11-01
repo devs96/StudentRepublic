@@ -41,11 +41,12 @@ public class CreateAccount extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 2;
     FirebaseAuth.AuthStateListener mAuthListener;
-    TextInputLayout firstNameLayout,LastNameLayout,EmailLayout,passLayout,confirmLayout;
-    TextInputEditText FirstNameField,LastNameField,passField,confirmField;
+    TextInputLayout firstNameLayout, LastNameLayout, EmailLayout, passLayout, confirmLayout;
+    TextInputEditText FirstNameField, LastNameField, passField, confirmField;
     AutoCompleteTextView EmailField;
     MaterialButton CreateAccountBtn;
     FirebaseAuth mAuth;
+    Student MyStud;
 
 
     @Override
@@ -66,7 +67,7 @@ public class CreateAccount extends AppCompatActivity {
         passField = findViewById(R.id.pass_field);
         confirmField = findViewById(R.id.confirm_pass_field);
         CreateAccountBtn = findViewById(R.id.CreateAccountBtn);
-        Gbutton = findViewById(R.id.googleBtn) ;
+        Gbutton = findViewById(R.id.googleBtn);
         mAuth = FirebaseAuth.getInstance();
 
         Gbutton.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +80,13 @@ public class CreateAccount extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() != null) {
-                    startActivity(new Intent(
-                            CreateAccount.this,ConfirmDetails.class));
+                if (firebaseAuth.getCurrentUser() != null) {
+
+                    Intent createAccountIntent = new Intent(getApplicationContext(), ConfirmDetails.class);
+                    createAccountIntent.putExtra("firstName", firebaseAuth.getCurrentUser().getDisplayName());
+                    createAccountIntent.putExtra("email", firebaseAuth.getCurrentUser().getEmail());
+                    startActivity(createAccountIntent);
+
                 }
             }
         };
@@ -105,7 +110,8 @@ public class CreateAccount extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {Toast.makeText(CreateAccount.this,"Google Sign in failed", Toast.LENGTH_SHORT).show();
+            } catch (ApiException e) {
+                Toast.makeText(CreateAccount.this, "Google Sign in failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -118,15 +124,16 @@ public class CreateAccount extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
                             String newDataRef = FirebaseAuth.getInstance().
-                                                getCurrentUser().getUid();
+                                    getCurrentUser().getUid();
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference mRootref = database.getReference(
-                                    "users/"+newDataRef);
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            DatabaseReference name_key,email_key;
+                                    "users/" + newDataRef);
+
+                            DatabaseReference name_key, email_key;
 
                             name_key = mRootref.child("name");
                             email_key = mRootref.child("email");
@@ -160,26 +167,26 @@ public class CreateAccount extends AppCompatActivity {
         String passStr = passField.getText().toString();
         String confirmStr = confirmField.getText().toString();
 
-        if (TextUtils.isEmpty(fnameStr)){
+        if (TextUtils.isEmpty(fnameStr)) {
             FirstNameField.setError("Required");
             valid = false;
         }
 
-        if (TextUtils.isEmpty(lnameStr)){
+        if (TextUtils.isEmpty(lnameStr)) {
             LastNameField.setError("Required");
             valid = false;
         }
 
-        if (TextUtils.isEmpty(passStr)){
+        if (TextUtils.isEmpty(passStr)) {
             passField.setError("Required");
             valid = false;
         }
-        if (TextUtils.isEmpty(confirmStr)){
+        if (TextUtils.isEmpty(confirmStr)) {
             confirmField.setError("Required");
             valid = false;
         }
 
-        if (!passStr.contentEquals(confirmStr)){
+        if (!passStr.contentEquals(confirmStr)) {
             confirmField.setError("Passwords Do No Match");
             valid = false;
         }
@@ -201,13 +208,13 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     public void tap(View view) {
-        if (!validateForm()){
+        if (!validateForm()) {
             Toast.makeText(CreateAccount.this,
                     "Validation is False", Toast.LENGTH_SHORT).show();
         }
         createAccount(
-                LastNameField.getText().toString(),
                 FirstNameField.getText().toString(),
+                LastNameField.getText().toString(),
                 EmailField.getText().toString(),
                 passField.getText().toString()
         );
@@ -215,54 +222,58 @@ public class CreateAccount extends AppCompatActivity {
 
 
     private void createAccount(final String first_name, final String last_name, final String email, String password) {
-        if (!validateForm()) {return;}
-
+        if (!validateForm()) {
+            return;
+        }
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
-                            String newDataRef = FirebaseAuth.getInstance().
-                                    getCurrentUser().getUid();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String UID = user.getUid();
+                            Log.d("User ID",UID);
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference mRootref = database.getReference(
-                                    "users/"+newDataRef);
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            DatabaseReference name_key,email_key;
+                                    "users/" + UID);
+
+                            DatabaseReference name_key, email_key;
 
                             name_key = mRootref.child("name");
                             email_key = mRootref.child("email");
-                            name_key.setValue(first_name+" "+last_name);
+                            name_key.setValue(first_name + " " + last_name);
                             email_key.setValue(email);
+
+                            Intent createAccountIntent = new Intent(getApplicationContext(), ConfirmDetails.class);
+                            createAccountIntent.putExtra("firstName", first_name);
+                            createAccountIntent.putExtra("lastName", last_name);
+                            createAccountIntent.putExtra("email", email);
+                            startActivity(createAccountIntent);
 
                         } else {
                             try {
                                 throw Objects.requireNonNull(task.getException());
+                            } catch (FirebaseAuthWeakPasswordException e) {
+                                Toast.makeText(CreateAccount.this, "Weak Password", Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(CreateAccount.this, "Invalid Email", Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                Toast.makeText(CreateAccount.this, "User Already Exist", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Toast.makeText(CreateAccount.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                            catch(FirebaseAuthWeakPasswordException e){Toast.makeText(CreateAccount.this, "Weak Password",Toast.LENGTH_SHORT).show();}
-                            catch(FirebaseAuthInvalidCredentialsException e){Toast.makeText(CreateAccount.this, "Invalid Email",Toast.LENGTH_SHORT).show(); }
-                            catch(FirebaseAuthUserCollisionException e){Toast.makeText(CreateAccount.this, "User Already Exist",Toast.LENGTH_SHORT).show(); }
-                            catch(Exception e){Toast.makeText(CreateAccount.this, e.getMessage(),Toast.LENGTH_SHORT).show();}
                             // If sign in fails, display a message to the user.
                             Toast.makeText(CreateAccount.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-        Intent createAccountIntent = new Intent(getApplicationContext(),ConfirmDetails.class);
-        createAccountIntent.putExtra("firstName",first_name);
-        createAccountIntent.putExtra("lastName",last_name);
-        createAccountIntent.putExtra("email",email);
-        createAccountIntent.putExtra("password",password);
-        addUserDetails();
-        startActivity(createAccountIntent);
+
     }
 
-    public void addUserDetails(){
-        Student MyStud = new Student(
-                LastNameField.getText().toString()+
-                FirstNameField.getText().toString(),
-                EmailField.getText().toString());
+    public void addUserDetails() {
+        MyStud.setName(FirstNameField.getText().toString() +
+                " " + LastNameField.getText().toString());
+        MyStud.setEmail(EmailField.getText().toString());
     }
 }

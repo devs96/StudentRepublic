@@ -89,11 +89,10 @@ public class SelectRole extends AppCompatActivity {
                             classes.putExtra("className",ClassName);
                             classes.putExtra("classCode",ClassCode);
                             startActivity(classes);
-                            startActivity(new Intent(SelectRole.this, StudentActivity.class));
+
                         }
                     }
                 });
-
 
             }
         });
