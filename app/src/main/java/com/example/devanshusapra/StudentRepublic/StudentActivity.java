@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,11 +34,15 @@ public class StudentActivity extends AppCompatActivity {
     FirebaseUser fuser;
     String ClassName;
     Student MyStud;
+    EditText clname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
+
+        clname = findViewById(R.id.classs_name);
+        ClassName = clname.getText().toString();
 
         Intent intent = getIntent();
 //        final String ClassName = intent.getStringExtra("className");
@@ -55,26 +60,31 @@ public class StudentActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Loading Data From Database");
         mProgressDialog.show();
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference mRootref =
-                database.getReference("users/"
-                        +FirebaseAuth.getInstance().getCurrentUser().getUid()+"/");
-        final DatabaseReference childref = mRootref.child("class/");
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            childref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot Snapshot) {
-                    for (DataSnapshot dataSnapshot : Snapshot.getChildren()) {
-                        ClassName = dataSnapshot.getValue(String.class);
-                        Toast.makeText(StudentActivity.this, "Class :" + ClassName, Toast.LENGTH_SHORT).show();
-                    }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-            Update();
-        }
+
+
+
+        Update();
+////
+////        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+////        final DatabaseReference mRootref =
+////                database.getReference("users/"
+////                        +FirebaseAuth.getInstance().getCurrentUser().getUid()+"/");
+////        final DatabaseReference childref = mRootref.child("class/");
+////        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+////            childref.addValueEventListener(new ValueEventListener() {
+////                @Override
+////                public void onDataChange(DataSnapshot Snapshot) {
+////                    for (DataSnapshot dataSnapshot : Snapshot.getChildren()) {
+////                        ClassName = dataSnapshot.getValue(String.class);
+////                        Toast.makeText(StudentActivity.this, "Class :" + ClassName, Toast.LENGTH_SHORT).show();
+////                    }
+////                }
+////                @Override
+////                public void onCancelled(DatabaseError databaseError) {
+////                }
+////            });
+////
+//        }
 //        try {
 //            loadModelWithDataFromFirebase();
 //        } catch (InterruptedException e) {
